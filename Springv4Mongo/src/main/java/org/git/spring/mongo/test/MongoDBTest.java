@@ -2,6 +2,7 @@ package org.git.spring.mongo.test;
 
 import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
+import java.util.List;
 import org.git.spring.mongo.Item;
 import org.git.spring.mongo.MongoConfig;
 import org.git.spring.mongo.Order;
@@ -23,11 +24,6 @@ public class MongoDBTest {
 	@Autowired
 	MongoOperations mongoOperations;
 	
-	/*public static void main(String str[]){
-		Order order=createAnOrder();
-		Order saveOrder=orderRepository.save(order);
-		System.out.println("!! Save Executed !!");
-	}*/
 	@Test
 	public void testMongoRepository(){
 		assertEquals(0, orderRepository.count());
@@ -37,8 +33,13 @@ public class MongoDBTest {
 		System.out.println("!! Save Executed !!");
 		assertEquals(1, orderRepository.count());
 		System.out.println("!! orderRepository.count() !!"+orderRepository.count());
-
-
+		
+		Order foundOrder = orderRepository.findOne(saveOrder.getId());
+		assertEquals("Elon Musk", foundOrder.getCustomer());
+		
+		List<Order> teslaOrder=orderRepository.findByCustomer("Elon Musk");
+		assertEquals(2,teslaOrder.get(0).getItems().size());
+		
 	}
 	
 	private Order createAnOrder(){
