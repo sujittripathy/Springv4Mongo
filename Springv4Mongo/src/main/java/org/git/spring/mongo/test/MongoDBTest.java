@@ -26,19 +26,23 @@ public class MongoDBTest {
 	
 	@Test
 	public void testMongoRepository(){
-		assertEquals(0, orderRepository.count());
-		Order order=createAnOrder();
+		//assertEquals(0, orderRepository.count());
+		//Order order=createAnOrder();
 		//Save Order
-		Order saveOrder=orderRepository.save(order);
-		System.out.println("!! Save Executed !!");
-		assertEquals(1, orderRepository.count());
-		System.out.println("!! orderRepository.count() !!"+orderRepository.count());
+	//	Order saveOrder=orderRepository.save(order);
+	//	System.out.println("!! Save Executed !!");
+	//	assertEquals(1, orderRepository.count());
+		//System.out.println("!! orderRepository.count() !!"+orderRepository.count());
 		
-		Order foundOrder = orderRepository.findOne(saveOrder.getId());
-		assertEquals("Elon Musk", foundOrder.getCustomer());
+	//	Order foundOrder = orderRepository.findOne(saveOrder.getId());
+		//assertEquals("Elon Musk", foundOrder.getCustomer());
 		
 		List<Order> teslaOrder=orderRepository.findByCustomer("Elon Musk");
 		assertEquals(2,teslaOrder.get(0).getItems().size());
+		assertEquals(3,teslaOrder.size());
+		
+		List<Order> teslaOrderLike=orderRepository.findByCustomerLike("Elon");
+		assertEquals(2,teslaOrderLike.get(0).getItems().size());
 		
 	}
 	
@@ -55,6 +59,13 @@ public class MongoDBTest {
 		item1.setQuantity(3);
 		item1.setPrice(35000);
 		order.setItems(Arrays.asList(item1,item2));
+		
+/*		Order order2=new Order();
+		order.setCustomer("Elon Musk Jr");
+		order.setType("WEB");
+
+		order2.setItems(Arrays.asList(item1));*/
+		
 		return order;
 	}
 		
